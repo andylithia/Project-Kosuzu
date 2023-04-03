@@ -1,0 +1,40 @@
+** sch_path:
+*+ /home/andylithia/github/Project-Kosuzu/SKY130/xschem/cmos_vref/Y.Ji_JSSC2019/s2_ctfp.sch
+**.subckt s2_ctfp
+XQ1 GND GND net1 sky130_fd_pr__pnp_05v5_W3p40L3p40 m=1
+V1 net2 GND 1.8
+.save i(v1)
+XM2 net1 net1 v1 v1 sky130_fd_pr__pfet_01v8 L=L2 W=W2 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=N2 m=N2
+XM3 v1 net2 net2 net2 sky130_fd_pr__pfet_01v8 L=L1 W=W1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=N1 m=N1
+**** begin user architecture code
+.lib /home/andylithia/openmpw/pdk_1/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+.include /home/andylithia/openmpw/pdk_1/sky130A/libs.ref/sky130_fd_sc_hvl/spice/sky130_fd_sc_hvl.spice
+
+.save all
+.options savecurrents
+
+.param L1=1
+.param W1=10
+.param N1=10
+
+.param L2=10
+.param W2=10
+.param N2=10
+
+.dc TEMP -20 120 20
+.control
+run
+display
+plot v1
+plot i(v1)
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end

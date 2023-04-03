@@ -1,0 +1,61 @@
+** sch_path:
+*+ /home/andylithia/github/Project-Kosuzu/SKY130/xschem/cmos_vref/Y.Ji_JSSC2019/s2_ztat.sch
+**.subckt s2_ztat
+XQ1 GND GND v3 sky130_fd_pr__pnp_05v5_W3p40L3p40 m=1
+V1 net1 GND 1
+.save i(v1)
+XM3 v1 net1 net1 net1 sky130_fd_pr__pfet_01v8 L=L1 W=W1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=N1 m=N1
+XM1 v3 v3 net2 v2 sky130_fd_pr__pfet_01v8 L=L2 W=W2 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=N2 m=N2
+XM4 net2 v3 net3 v2 sky130_fd_pr__pfet_01v8 L=L2 W=W2 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=N2 m=N2
+XM6 net3 v3 net4 v2 sky130_fd_pr__pfet_01v8 L=L2 W=W2 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=N2 m=N2
+XM7 net4 v3 v2 v2 sky130_fd_pr__pfet_01v8 L=L2 W=W2 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=N2 m=N2
+XM2 v2 v2 net5 v1 sky130_fd_pr__pfet_01v8 L=L2 W=W2 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=N2 m=N2
+XM5 net5 v2 net6 v1 sky130_fd_pr__pfet_01v8 L=L2 W=W2 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=N2 m=N2
+XM8 net6 v2 net7 v1 sky130_fd_pr__pfet_01v8 L=L2 W=W2 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=N2 m=N2
+XM9 net7 v2 v1 v1 sky130_fd_pr__pfet_01v8 L=L2 W=W2 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=N2 m=N2
+**** begin user architecture code
+.lib /home/andylithia/openmpw/pdk_1/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+.include /home/andylithia/openmpw/pdk_1/sky130A/libs.ref/sky130_fd_sc_hvl/spice/sky130_fd_sc_hvl.spice
+
+.save all
+.options savecurrents
+
+.param L1=1
+.param W1=40
+.param N1=1
+
+.param L2=2.5
+.param W2=0.5
+.param N2=1
+
+.dc TEMP -20 120 10
+.control
+run
+display
+plot v1 v2 v3
+plot i(v1)
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end
