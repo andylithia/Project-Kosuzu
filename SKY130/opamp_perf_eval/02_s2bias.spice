@@ -1,0 +1,40 @@
+** sch_path: /home/andylithia/openmpw/Project-Kosuzu/SKY130/opamp_perf_eval/02_s2bias.sch
+**.subckt 02_s2bias
+Vsupply VDD GND 1.8
+.save i(vsupply)
+V2 vip net1 AC 0.5
+.save i(v2)
+V3 vin net1 AC -0.5
+.save i(v3)
+Vbias2 bias2 GND 0
+.save i(vbias2)
+Vbias1 bias1 GND 0.8
+.save i(vbias1)
+Vindc net1 GND 1
+.save i(vindc)
+**** begin user architecture code
+
+
+.include dut_example.sp
+XDUT vin vip bias1 bias2 vo VDD GND opamp
+
+
+.lib /home/andylithia/openmpw/pdk_1/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+.include /home/andylithia/openmpw/pdk_1/sky130A/libs.ref/sky130_fd_sc_hvl/spice/sky130_fd_sc_hvl.spice
+
+.save all
+.options savecurrents
+.dc Vbias2 0 1.8 0.01
+.control
+run
+display
+plot -i(Vsupply)
+plot vo
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.GLOBAL VDD
+.end

@@ -1,0 +1,49 @@
+** sch_path: /home/andylithia/openmpw/Project-Kosuzu/SKY130/opamp_perf_eval/04_cmrr.sch
+**.subckt 04_cmrr
+Vsupply VDD GND 1.8
+.save i(vsupply)
+V2 vin net1 AC 1
+.save i(v2)
+V3 vip net1 AC 1
+.save i(v3)
+Vbias2 bias2 GND 0.75
+.save i(vbias2)
+Vbias1 bias1 GND 0.8
+.save i(vbias1)
+Vindc net1 GND 1
+.save i(vindc)
+**** begin user architecture code
+
+
+.include dut_example.sp
+XDUT vin vip bias1 bias2 vo VDD GND opamp
+
+
+.lib /home/andylithia/openmpw/pdk_1/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+.include /home/andylithia/openmpw/pdk_1/sky130A/libs.ref/sky130_fd_sc_hvl/spice/sky130_fd_sc_hvl.spice
+
+.save all
+.options savecurrents
+.ac dec 100 1k 10G
+.control
+run
+display
+let phase=180/PI*vp(vo)
+plot vdb(vo)
+plot phase
+
+echo "Calculated Parameters"
+meas ac gm_db find vdb(vo) when vp(vo)=0
+meas ac pm_deg find phase when vdb(vo)=0
+meas ac dc_gain find vdb(vo) at=1k
+let vor=dc_gain-vdb(vo)
+meas ac m3db_f when vor=3
+meas ac ugb_f when vdb(vo)=0
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.GLOBAL VDD
+.end
